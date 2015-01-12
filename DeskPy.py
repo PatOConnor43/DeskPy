@@ -1,18 +1,8 @@
-
-# coding: utf-8
-
-# In[ ]:
-
-
-
-
-# In[16]:
-
 import praw
 import urllib
 import os, sys
 from random import randrange
-from gi.repository import Gio
+
 
 try:
     
@@ -22,7 +12,7 @@ try:
     used_submission = submissions[randrange(0,50)]
     
     
-    parent_save_dir = os.getcwd()
+    parent_save_dir = os.path.abspath(os.path.dirname(__file__))
     
     try:
         os.chdir(parent_save_dir + '/Desktops/')
@@ -32,21 +22,13 @@ try:
     
     urllib.urlretrieve(used_submission.url, used_submission.name)
         
-        
-    settings = Gio.Settings.new("org.gnome.desktop.background")
     
-    settings.set_string("picture-uri", 'file://' + os.getcwd()+'/' + used_submission.name)
+    setup = 'file://' + os.getcwd() + '/' + used_submission.name
+    os.system("DISPLAY=:0 GSETTINGS_BACKEND=dconf gsettings set org.gnome.desktop.background picture-uri '%s'" % (setup))
+    
     
 except IOError:
     print('Check internet connection and try again')
-
-
-# In[10]:
-
-
-
-
-# In[ ]:
 
 
 
